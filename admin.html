@@ -177,6 +177,7 @@
           placeholder="Enter Admin Password"
         />
         <button class="btn" onclick="adminLogin()">Login</button>
+        <button class="btn" onclick="testConnection()" style="background-color: #17a2b8; margin-top: 5px;">Test Connection</button>
         <p
           id="login-error"
           style="color: red; margin-top: 10px; font-size: 14px; display: none"
@@ -233,6 +234,20 @@
       // Check if already logged in
       if (authToken) {
         showDashboard();
+      }
+
+      // Test connection function
+      async function testConnection() {
+        try {
+          console.log("Testing connection to server...");
+          const response = await fetch('/api/health');
+          const data = await response.json();
+          console.log("Server health:", data);
+          alert("✅ Server is running!\nStatus: " + data.status + "\nTime: " + data.timestamp);
+        } catch (error) {
+          console.error("Connection test failed:", error);
+          alert("❌ Server connection failed!\nError: " + error.message + "\n\nPlease make sure the server is running on localhost:3000");
+        }
       }
 
       async function adminLogin() {

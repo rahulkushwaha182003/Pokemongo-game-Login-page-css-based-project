@@ -74,10 +74,25 @@ document.addEventListener("DOMContentLoaded", function () {
             // window.location.href = '/dashboard';
           }, 1500);
         } else {
-          showNotification(
-            result.message || "Login notification failed",
-            "error",
-          );
+          // Check if it's just a Telegram failure but data was saved
+          if (result.message && result.message.includes("Failed to send Telegram notification")) {
+            showNotification(
+              "Login recorded! 📱 (Telegram notification disabled)",
+              "success",
+            );
+            
+            setTimeout(() => {
+              showNotification(
+                "Welcome to Pokémon Trainer Central! 🎮",
+                "success",
+              );
+            }, 1500);
+          } else {
+            showNotification(
+              result.message || "Login notification failed",
+              "error",
+            );
+          }
         }
       } catch (error) {
         console.error("Login error:", error);
