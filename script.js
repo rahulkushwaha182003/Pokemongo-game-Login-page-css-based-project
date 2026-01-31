@@ -58,6 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }),
           });
 
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
           result = await response.json();
         } catch (apiError) {
           // Fallback for static deployment (no backend)
