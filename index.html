@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pokemon.com</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="https://static.pokemon.com/images/ptc/PTC_Logo_Horizontal_Black_RGB_en-US.svg" as="image">
+    
+    <!-- DNS prefetch for external domains -->
+    <link rel="dns-prefetch" href="//static.pokemon.com">
+    <link rel="dns-prefetch" href="//access.pokemon.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Critical CSS inline -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+        body{width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow-y:auto;overflow-x:hidden;background-color:#e8e8e8;background-image:url('https://static.prod.pokemon.com/images/pikachu_pattern.png');background-size:200px 200px;background-repeat:repeat;background-position:center;box-sizing:border-box}
+        .container{width:380px;background-color:#fff;padding:30px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);height:100vh;margin-top:50px;margin-bottom:50px;box-sizing:border-box}
+        .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
+        @keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .hidden{display:none}
+    </style>
+    
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Font Awesome (deferred) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+</head>
+<body>
+    <!-- Main content -->
+    <div id="main-content" class="container">
+        <div class="logo-container">
+            <img class="pokemon-logo" alt="Pokémon Trainer Central Logo" src="https://static.pokemon.com/images/ptc/PTC_Logo_Horizontal_Black_RGB_en-US.svg" loading="lazy">
+        </div>
+        
+        <div class="info-banner">
+            <pre>Pokémon Trainer Club is now <b>Pokémon Trainer Central!
+            </b>Visit<b> pokemon.com </b>for more details.</pre>
+        </div>
+        
+        <h1><b>Log in to your Pokémon Trainer Central account</b></h1>
+        
+        <form>
+            <div class="input-group">
+                <input class="form-input" type="text" id="username" name="username" placeholder="Username" autocomplete="username">
+            </div>
+            
+            <div class="input-group password-group">
+                <input class="form-input" type="password" id="password" name="password" placeholder="Password" autocomplete="current-password">
+                <button type="button" class="password-toggle" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <div class="trouble-login">
+                <a href="#">Trouble logging in?</a>
+            </div>
+            
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+        
+        
+        <div class="social-login">
+            <div class="divider">
+                <span>or log in with</span>
+            </div>
+            <div class="social-buttons">
+                <button class="social-btn google-btn">
+                    <img src="https://access.pokemon.com/images/google_logo.svg" alt="Google" style="width: 40px; height: 40px;" loading="lazy">
+                </button>
+                <button class="social-btn apple-btn">
+                    <img src="https://access.pokemon.com/images/apple_logo.svg" alt="Apple" style="width: 40px; height: 40px;" loading="lazy">
+                </button>
+            </div>
+        </div>
+        
+        <div class="create-account">
+            <p>Don't have an account?</p>
+            <a href="#" class="create-account-btn">Create an Account</a>
+        </div>
+        
+        <div class="copyright">
+           <p> 2026 Pokémon.<br>1995 - 2026 Nintendo/Creatures Inc./GAME FREAK inc. TM, Nintendo.</p>
+        </div>
+    </div>
+
+    <!-- Main script (deferred) -->
+    <script src="script.js" defer></script>
+</body>
+</html>
