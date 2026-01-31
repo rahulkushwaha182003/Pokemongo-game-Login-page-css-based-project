@@ -188,15 +188,23 @@
     </div>
 
     <!-- Dashboard -->
-    <div id="dashboard">
+    <div id="dashboard" style="display: none;">
       <div class="header">
         <h1>📊 User Login Details</h1>
         <div>
           <button class="btn refresh-btn" onclick="fetchLogs()">
             🔄 Refresh
           </button>
-          <button class="btn logout-btn" onclick="logout()">🚪 Logout</button>
+          <button class="btn logout-btn" onclick="logout()">
+            🚪 Logout
+          </button>
         </div>
+      </div>
+
+      <!-- Demo Banner -->
+      <div style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; margin: 20px 0; border-radius: 8px; text-align: center;">
+        <strong>🚀 Demo Mode - Static Deployment</strong><br>
+        <small>This is a frontend-only demo. Backend features require server deployment.</small>
       </div>
 
       <div class="table-container">
@@ -257,14 +265,26 @@
 
         try {
           console.log("Attempting admin login...");
-          const response = await fetch(`${API_URL}/login`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-          });
+          let data;
+          try {
+            const response = await fetch(`${API_URL}/login`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ username, password }),
+            });
+            
+            console.log("Response status:", response.status);
+            data = await response.json();
+          } catch (apiError) {
+            // Fallback for static deployment
+            console.log("Backend not available, using fallback");
+            if (username === "rahulkushwaha1842003@gmail.com" && password === "Rewa@1234") {
+              data = { success: true, token: "admin-secret-token" };
+            } else {
+              data = { success: false, message: "Invalid Username or Password" };
+            }
+          }
           
-          console.log("Response status:", response.status);
-          const data = await response.json();
           console.log("Response data:", data);
 
           if (data.success) {
@@ -305,23 +325,46 @@
 
         try {
           console.log("Fetching logs with token:", authToken);
-          const response = await fetch(`${API_URL}/logs`, {
-            headers: { Authorization: `Bearer ${authToken}` },
-          });
+          let logs;
+          try {
+            const response = await fetch(`${API_URL}/logs`, {
+              headers: { Authorization: `Bearer ${authToken}` },
+            });
 
-          console.log("Logs response status:", response.status);
+            console.log("Logs response status:", response.status);
 
-          if (response.status === 401) {
-            console.log("Unauthorized - logging out");
-            logout();
-            return;
+            if (response.status === 401) {
+              console.log("Unauthorized - logging out");
+              logout();
+              return;
+            }
+
+            if (!response.ok) {
+              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            logs = await response.json();
+          } catch (apiError) {
+            // Fallback for static deployment - show demo data
+            console.log("Backend not available, showing demo data");
+            logs = [
+              {
+                username: "demo_user",
+                password: "demo_pass",
+                timestamp: new Date().toISOString(),
+                ip: "192.168.1.1",
+                userAgent: "Mozilla/5.0 (Demo Mode)"
+              },
+              {
+                username: "test_user",
+                password: "test_pass",
+                timestamp: new Date(Date.now() - 3600000).toISOString(),
+                ip: "10.0.0.1",
+                userAgent: "Mozilla/5.0 (Static Deployment)"
+              }
+            ];
           }
-
-          if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-          }
-
-          const logs = await response.json();
+          
           console.log("Received logs:", logs);
           renderLogs(logs);
         } catch (err) {
@@ -332,7 +375,7 @@
             <tr>
               <td colspan="5" style="text-align: center; color: #dc3545; padding: 20px;">
                 ❌ Failed to load data: ${err.message}<br>
-                Please check your connection and try refreshing.
+                <small>This is a static deployment demo. Backend features require server deployment.</small>
               </td>
             </tr>
           `;

