@@ -14,11 +14,10 @@ body {
     justify-content: center;
     overflow-x: hidden;
     background-color: #e8e8e8;
-    background-image: url('https://static.prod.pokemon.com/images/pikachu_pattern.png');
-    background-size: 200px 200px;
-    background-repeat: repeat;
-    background-position: center;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-sizing: border-box;
+    background-image: url(https://static.prod.pokemon.com/images/pikachu_pattern.png);
+    background-repeat: repeat;
 }
 
 .container {
@@ -47,6 +46,8 @@ body {
 .pokemon-logo {
     width: 200px;
     height: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .info-banner {
@@ -55,7 +56,7 @@ body {
     border-radius: 4px;
     margin-bottom: 15px;
     text-align: center;
-    /* font-weight: bold; */
+    font-weight: bold;
     font-family: "Flexo-Heavy";
     flex-shrink: 0;
 }
@@ -69,7 +70,7 @@ body {
 
 h1 {
     color: #313131;
-    font-size: 18px;
+    font-size: 20px;
     text-align: center;
     margin-bottom: 15px;
     font-weight: bold;
@@ -141,7 +142,7 @@ h1 {
 
 .trouble-login {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 10px;
     flex-shrink: 0;
 }
 
@@ -183,6 +184,13 @@ h1 {
 .social-buttons {
     display: flex;
     gap: 12px;
+    justify-content: center;
+}
+
+.social-buttons a {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
@@ -383,13 +391,14 @@ h1 {
         overflow-y: hidden;
     }
 
-    .pokemon-logo {
-        width: 220px;
-    }
-
+    
     .info-banner {
         padding: 10px;
         margin-bottom: 12px;
+    }
+
+    .pokemon-logo {
+        width: 220px;
     }
 
     h1 {
@@ -455,13 +464,14 @@ h1 {
         overflow-y: hidden;
     }
 
-    .pokemon-logo {
-        width: 240px;
-    }
-
+    
     .info-banner {
         padding: 12px;
         margin-bottom: 15px;
+    }
+
+    .pokemon-logo {
+        width: 240px;
     }
 
     h1 {
@@ -527,13 +537,14 @@ h1 {
         overflow-y: hidden;
     }
 
-    .pokemon-logo {
-        width: 260px;
-    }
-
+    
     .info-banner {
         padding: 14px;
         margin-bottom: 18px;
+    }
+
+    .pokemon-logo {
+        width: 260px;
     }
 
     h1 {
@@ -604,13 +615,14 @@ h1 {
         overflow-y: hidden;
     }
 
-    .pokemon-logo {
-        width: 280px;
-    }
-
+    
     .info-banner {
         padding: 16px;
         margin-bottom: 20px;
+    }
+
+    .pokemon-logo {
+        width: 280px;
     }
 
     h1 {
@@ -666,12 +678,13 @@ h1 {
         overflow-y: hidden;
     }
 
-    .pokemon-logo {
-        width: 300px;
-    }
-
+    
     h1 {
         font-size: 26px;
+    }
+
+    .pokemon-logo {
+        width: 300px;
     }
 
     .form-input {
@@ -706,11 +719,7 @@ h1 {
         min-height: auto;
     }
 
-    .pokemon-logo {
-        width: 200px;
-        height: auto;
-    }
-
+    
     .info-banner {
         padding: 10px;
         margin-bottom: 15px;
@@ -783,15 +792,15 @@ h1 {
         overflow-y: auto;
     }
 
-    .pokemon-logo {
-        width: 180px;
-        height: auto;
-        margin-bottom: 15px;
-    }
-
+    
     .info-banner {
         padding: 8px;
         margin-bottom: 12px;
+    }
+
+    .pokemon-logo {
+        width: 180px;
+        margin-bottom: 15px;
     }
 
     .info-banner pre {
@@ -913,12 +922,13 @@ h1 {
         padding: 12px;
     }
 
-    .pokemon-logo {
-        width: 160px;
-    }
-
+    
     h1 {
         font-size: 15px;
+    }
+
+    .pokemon-logo {
+        width: 160px;
     }
 
     .form-input {
