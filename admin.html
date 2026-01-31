@@ -241,12 +241,16 @@
         const errorMsg = document.getElementById("login-error");
 
         try {
+          console.log("Attempting admin login...");
           const response = await fetch(`${API_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password }),
           });
+          
+          console.log("Response status:", response.status);
           const data = await response.json();
+          console.log("Response data:", data);
 
           if (data.success) {
             authToken = data.token;
@@ -255,9 +259,12 @@
             errorMsg.style.display = "none";
           } else {
             errorMsg.style.display = "block";
+            errorMsg.textContent = data.message || "Invalid Username or Password";
           }
         } catch (err) {
-          alert("Server Error");
+          console.error("Login error:", err);
+          errorMsg.style.display = "block";
+          errorMsg.textContent = "Server connection error. Please check if server is running.";
         }
       }
 
@@ -276,22 +283,44 @@
       }
 
       async function fetchLogs() {
-        if (!authToken) return;
+        if (!authToken) {
+          console.log("No auth token available");
+          return;
+        }
 
         try {
+          console.log("Fetching logs with token:", authToken);
           const response = await fetch(`${API_URL}/logs`, {
             headers: { Authorization: `Bearer ${authToken}` },
           });
 
+          console.log("Logs response status:", response.status);
+
           if (response.status === 401) {
+            console.log("Unauthorized - logging out");
             logout();
             return;
           }
 
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
           const logs = await response.json();
+          console.log("Received logs:", logs);
           renderLogs(logs);
         } catch (err) {
           console.error("Failed to fetch logs", err);
+          // Show error message to user
+          const tbody = document.getElementById("logs-body");
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center; color: #dc3545; padding: 20px;">
+                ❌ Failed to load data: ${err.message}<br>
+                Please check your connection and try refreshing.
+              </td>
+            </tr>
+          `;
         }
       }
 
