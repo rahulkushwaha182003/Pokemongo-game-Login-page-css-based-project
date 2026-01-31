@@ -16,8 +16,6 @@ body {
     background-color: #e8e8e8;
     background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-sizing: border-box;
-    background-image: url(https://static.prod.pokemon.com/images/pikachu_pattern.png);
-    background-repeat: repeat;
 }
 
 .container {
