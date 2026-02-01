@@ -4,15 +4,15 @@ const https = require("https");
 const cors = require("cors");
 
 const app = express();
-const ADMIN_USERNAME = "rahulkushwaha1842003@gmail.com";
-const ADMIN_PASSWORD = "Rewa@1234";
+
+// Environment variables
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "rahulkushwaha1842003@gmail.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Rewa@1234";
+const BOT_TOKEN = process.env.BOT_TOKEN || "8215904112:AAH06c70RFrcJtI0Qfla0dygrzCIF3_3rFM".replace(/\s/g, "");
+let CHAT_ID = process.env.CHAT_ID || "YOUR_CHAT_ID_HERE";
 
 // Store login logs in memory
 const loginLogs = [];
-
-// Telegram Bot Configuration
-const BOT_TOKEN = "8215904112:AAH06c70RFrcJtI0Qfla0dygrzCIF3_3rFM".replace(/\s/g, "");
-let CHAT_ID = "YOUR_CHAT_ID_HERE";
 
 // Get chat ID helper function
 async function getChatId() {
