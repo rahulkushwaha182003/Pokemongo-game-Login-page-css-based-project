@@ -8,9 +8,7 @@
 body {
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     overflow-x: hidden;
     overflow-y: auto;
     background-color: #e8e8e8;
@@ -28,8 +26,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
     height: auto;
-    max-height: none;
-    margin: auto;
+    margin: 20px auto;
     overflow-y: visible;
     will-change: transform;
     box-sizing: border-box;
