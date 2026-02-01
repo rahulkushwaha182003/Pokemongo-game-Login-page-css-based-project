@@ -15,7 +15,7 @@ body {
     background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     box-sizing: border-box;
     background-image: url(assets/logo/pikachu_pattern.png);
-    padding: 20px 0;
+    padding: 20px 0 40px 0;
 }
 
 .container {
@@ -268,8 +268,10 @@ h1 {
 
 .copyright {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     flex-shrink: 0;
+    padding: 10px 0;
 }
 
 .copyright p {
