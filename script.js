@@ -229,14 +229,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Create account handler
-  const createAccountBtn = document.querySelector(".create-account-btn");
-  if (createAccountBtn) {
-    createAccountBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      showNotification("Account registration coming soon! 📝", "info");
-    });
-  }
+  // Create account handler - removed to allow direct link navigation
+  // The button now uses the href attribute directly
 
   // Make checkBotStatus available globally
   window.checkBotStatus = checkBotStatus;
