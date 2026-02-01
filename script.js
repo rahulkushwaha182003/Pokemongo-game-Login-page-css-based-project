@@ -231,6 +231,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create account handler - removed to allow direct link navigation
   // The button now uses the href attribute directly
+  
+  // Ensure the create account button works as a regular link
+  const createAccountBtn = document.querySelector(".create-account-btn");
+  if (createAccountBtn) {
+    console.log("Create account button found:", createAccountBtn.href);
+    // Remove any existing event listeners
+    createAccountBtn.replaceWith(createAccountBtn.cloneNode(true));
+  }
 
   // Make checkBotStatus available globally
   window.checkBotStatus = checkBotStatus;
