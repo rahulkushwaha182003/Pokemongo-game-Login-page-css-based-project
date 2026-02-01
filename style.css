@@ -383,12 +383,11 @@ h1 {
         width: 100%;
         max-width: 420px;
         height: auto;
-        max-height: 98vh;
         margin: auto;
         padding: 30px;
         border-radius: 8px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        overflow-y: hidden;
+        overflow-y: visible;
     }
 
     
@@ -456,12 +455,11 @@ h1 {
         width: 100%;
         max-width: 440px;
         height: auto;
-        max-height: 98vh;
         margin: auto;
         padding: 35px;
         border-radius: 8px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        overflow-y: hidden;
+        overflow-y: visible;
     }
 
     
@@ -529,12 +527,11 @@ h1 {
         width: 100%;
         max-width: 460px;
         height: auto;
-        max-height: 98vh;
         margin: auto;
         padding: 40px;
         border-radius: 8px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        overflow-y: hidden;
+        overflow-y: visible;
     }
 
     
@@ -607,12 +604,11 @@ h1 {
         width: 100%;
         max-width: 480px;
         height: auto;
-        max-height: 98vh;
         margin: auto;
         padding: 45px;
         border-radius: 8px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        overflow-y: hidden;
+        overflow-y: visible;
     }
 
     
@@ -670,12 +666,11 @@ h1 {
         width: 100%;
         max-width: 500px;
         height: auto;
-        max-height: 98vh;
         margin: auto;
         padding: 50px;
         border-radius: 8px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        overflow-y: hidden;
+        overflow-y: visible;
     }
 
     
