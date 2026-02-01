@@ -196,21 +196,21 @@ h1 {
 
 .social-btn {
     border: none;
-    border-radius: 4px;
+    border-radius: 50%;
     background-color: white;
-    cursor: pointer;
+    width: 48px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 10px;
-    flex-shrink: 0;
+    cursor: pointer;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .social-btn:hover {
-    background-color: #f5f5f5;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .google-btn {
@@ -218,9 +218,24 @@ h1 {
     border-radius: 100%;
 }
 
+.google-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
 .apple-btn {
-    color: #000;
+    background-color: #000;
+    color: white;
     border-radius: 100%;
+}
+
+.apple-btn:hover {
+    background-color: #333;
+}
+
+.apple-btn svg {
+    width: 24px;
+    height: 24px;
 }
 
 .create-account {
@@ -237,26 +252,34 @@ h1 {
 
 .create-account-btn {
     display: inline-block;
-    padding: 8px 120px;
-    border: 1px solid #4dad5b;
+    padding: 12px 80px;
+    border: 2px solid #4dad5b;
+    background-color: transparent;
     color: #4dad5b;
     text-decoration: none;
     border-radius: 4px;
-    font-weight: 600;
-    width: auto 100%;
+    font-weight: 500;
     font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.create-account-btn:hover {
+    background-color: #4dad5b;
+    color: white;
 }
 
 .copyright {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 20px;
     flex-shrink: 0;
 }
 
 .copyright p {
     font-size: 10px;
     color: #666;
-    line-height: 1.4;
+    line-height: 1.6;
+    margin: 0;
 }
 
 /* Bot Status Indicator */
